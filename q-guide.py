@@ -60,8 +60,8 @@ class QGuide(QtGui.QMainWindow):
         size_policy.setVerticalStretch(0)
         size_policy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
         self.setSizePolicy(size_policy)
-        self.setMinimumSize(QtCore.QSize(340, 450))
-        self.setMaximumSize(QtCore.QSize(340, 450))
+        self.setMinimumSize(QtCore.QSize(640, 350))
+        # self.setMaximumSize(QtCore.QSize(340, 450))
 
         self.centralwidget = QtGui.QWidget(self)
 
@@ -119,7 +119,7 @@ class QGuide(QtGui.QMainWindow):
         self.nameLine.setMinimumSize(QtCore.QSize(250, 0))
 
         self.addressLabel = QtGui.QLabel(self.centralwidget)
-        self.addressLabel.setText(_translate(None, "Dirección':", None))
+        self.addressLabel.setText(_translate(None, "Dirección:", None))
         self.spacerItem2 = QtGui.QSpacerItem(
             40,
             20,
@@ -219,17 +219,19 @@ class QGuide(QtGui.QMainWindow):
         nmbr = self.numberLine.text()
         nam = self.nameLine.text()
         addr = self.addressLine.text()
+        ide = ""
         if nmbr == "" and nam == "" and addr == "":
             QtGui.QMessageBox.critical(
                 self,
                 'Error',
                 'No se pueden realizar consultas sobre campos vacios')
         else:
-            query = ("SELECT number, name, address FROM 'main'.'movil' WHERE number LIKE '%{nmbr}%' AND name LIKE '%{nam}%' AND address LIKE '%{addr}%';").format(nmbr=nmbr, nam=nam, addr=addr)
+            query = ("SELECT number, name, address, identification FROM 'main'.'movil' WHERE number LIKE '%{nmbr}%' AND name LIKE '%{nam}%' AND address LIKE '%{addr}%';").format(nmbr=nmbr, nam=nam, ide=ide, addr=addr)
             self.model.setQuery(query)
             self.model.setHeaderData(0, QtCore.Qt.Horizontal, "Numero")
             self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Nombre")
-            self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Direccion")
+            self.model.setHeaderData(2, QtCore.Qt.Horizontal, "ID")
+            self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Direccion")
             self.statusbar.showMessage('Total de resultados: ' + str(self.model.rowCount()))
 
     def search_fix(self):
